@@ -12,7 +12,7 @@ use warnings;
 
 package Config::MVP::Slicer;
 {
-  $Config::MVP::Slicer::VERSION = '0.301';
+  $Config::MVP::Slicer::VERSION = '0.302';
 }
 BEGIN {
   $Config::MVP::Slicer::AUTHORITY = 'cpan:RWSTAUNER';
@@ -206,10 +206,10 @@ __PACKAGE__->meta->make_immutable;
 __END__
 =pod
 
-=for :stopwords Randy Stauner ACKNOWLEDGEMENTS cpan testmatrix url annocpan anno bugtracker
-rt cpants kwalitee diff irc mailto metadata placeholders
-
 =encoding utf-8
+
+=for :stopwords Randy Stauner ACKNOWLEDGEMENTS cpan testmatrix url annocpan anno bugtracker
+rt cpants kwalitee diff irc mailto metadata placeholders metacpan
 
 =head1 NAME
 
@@ -217,7 +217,7 @@ Config::MVP::Slicer - Extract embedded plugin config from parent config
 
 =head1 VERSION
 
-version 0.301
+version 0.302
 
 =head1 SYNOPSIS
 
@@ -348,10 +348,17 @@ A regular expression that will capture
 the package name in C<$1> and
 the attribute name in C<$2>.
 
-The default separates plugin name from attribute name with a dot:
+The default (C<(.+?)\.(.+?)>)
+separates plugin name from attribute name with a dot:
 
   'Module::Name.attribute'
   '-Plugin.attr'
+
+B<NOTE>: The regexp should B<not> be anchored since L</separator_regexp>
+uses it as the middle piece of a larger regexp
+(to add L</prefix> and the possible array bracket suffix).
+Also beware of using a regexp that greedily matches the array bracket suffix
+as that can confuse things as well.
 
 =head1 METHODS
 
